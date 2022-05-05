@@ -20,10 +20,10 @@ public class Vacancy implements CommonEntity<Long> {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id")
+    @JoinColumn(name = "company_id")
     @ToString.Exclude
     @NonNull
-    private Person person_id;
+    private Company company_id;
 
     @Column(nullable = false, name = "position")
     @NonNull
