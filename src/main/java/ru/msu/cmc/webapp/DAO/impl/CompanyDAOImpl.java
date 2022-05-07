@@ -7,8 +7,7 @@ import ru.msu.cmc.webapp.DAO.CompanyDAO;
 import ru.msu.cmc.webapp.models.Company;
 import ru.msu.cmc.webapp.utils.HibernateUtility;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 @Repository
@@ -59,7 +58,11 @@ public class CompanyDAOImpl implements CompanyDAO{
                         "WHERE company.id = :id");
         query.setParameter("id", id);
         Company result;
-        result = query.getSingleResult();
+        try {
+            result = query.getSingleResult();
+        } catch(NoResultException e) {
+            result = null;
+        }
         session.close();
         return result;
     }
