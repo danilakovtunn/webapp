@@ -15,53 +15,67 @@ import java.util.List;
 public class CompanyDAOImpl implements CompanyDAO{
 
     @Override
-    public void add(Company company) {
+    public void add(Company entity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(company);
+        session.save(entity);
         session.getTransaction().commit();
         session.close();
     }
 
     @Override
-    public void update(Company company) {
+    public void update(Company entity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-        session.update(company);
+        session.update(entity);
         session.getTransaction().commit();
         session.close();
     }
 
     @Override
-    public void remove(Company company) {
+    public void delete(Company entity) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-        session.delete(company);
+        session.delete(entity);
         session.getTransaction().commit();
         session.close();
     }
 
-//    @Override
-//    public List<Company> getAllCompanyByName(String personName) {
-//
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<Company> query = session.createQuery("FROM Company WHERE name LIKE :comName");
-//            query.setParameter("comName", likeExpr(personName));
-//            return query.getResultList().size() == 0 ? new ArrayList<Company>() : query.getResultList();
-//        }
-//    }
-//
-//    @Override
-//    public void saveCollection(Collection<Company> entities) {
-//
-//        try (Session session = HibernateUtility.getSessionFactory().openSession()) {
-//            session.beginTransaction();
-//            for (Company entity : entities) {
-//                this.save(entity);
-//            }
-//            session.getTransaction().commit();
-//        }
-//    }
+    @Override
+    public List<Company> getAll() {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Query<Company> query = session.createQuery
+                ("FROM Company", Company.class);
+        List<Company> result = query.getResultList();
+        session.close();
+        return result;
+    }
+
+    @Override
+    public Company getById(Long id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Query<Company> query = session.createQuery
+                ("FROM Company AS company " +
+                        "WHERE company.id = :id");
+        query.setParameter("id", id);
+        Company result;
+        result = query.getSingleResult();
+        session.close();
+        return result;
+    }
+    @Override
+    public List<Company> getAllCompanyByName(String personName) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Query<Company> query = session.createQuery
+                ("FROM Company " +
+                "WHERE name LIKE :comName");
+        query.setParameter("comName", likeExpr(personName));
+        List<Company> result = query.getResultList();
+        session.close();
+        return result;
+    }
+
+
     private String likeExpr(String param) {
         return "%" + param + "%";
     }

@@ -1,12 +1,17 @@
 package ru.msu.cmc.webapp.DAO;
 
+import ru.msu.cmc.webapp.models.Company;
 import ru.msu.cmc.webapp.models.Education;
 import ru.msu.cmc.webapp.models.Person;
+
+import java.util.Collection;
 import java.util.List;
 
 public interface PersonDAO {
-//    void add(Person person);
-//    void update(Person person);
-//    void remove(Person person);
-//    List<Person> getAllPersonByName(String companyName);
+    Person getById(Long id);
+    Collection<Person> getAll();
+    void add(Person entity);
+    void delete(Person entity);
+    void update(Person entity);
+    List<Person> getAllPersonByName(String companyName);
 }
