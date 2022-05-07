@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Education implements CommonEntity<Long> {
+public class Education {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

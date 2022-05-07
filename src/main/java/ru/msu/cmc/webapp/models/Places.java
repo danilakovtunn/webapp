@@ -13,7 +13,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Places implements CommonEntity<Long> {
+public class Places {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

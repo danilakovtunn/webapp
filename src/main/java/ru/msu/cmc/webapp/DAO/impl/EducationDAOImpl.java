@@ -5,9 +5,7 @@ import ru.msu.cmc.webapp.DAO.EducationDAO;
 import ru.msu.cmc.webapp.models.Education;
 
 @Repository
-public class EducationDAOImpl extends CommonDAOImpl<Education, Long> implements EducationDAO {
+public class EducationDAOImpl implements EducationDAO {
 
-    public EducationDAOImpl() {
-        super(Education.class);
-    }
+
 }

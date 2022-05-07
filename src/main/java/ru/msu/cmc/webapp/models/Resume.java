@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Resume implements CommonEntity<Long> {
+public class Resume {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
