@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.msu.cmc.webapp.DAO.PlacesDAO;
+import ru.msu.cmc.webapp.DAO.PersonDAO;
 import ru.msu.cmc.webapp.models.Company;
 import ru.msu.cmc.webapp.models.Education;
 import ru.msu.cmc.webapp.models.Places;
@@ -65,10 +66,11 @@ public class PlacesDAOImpl implements PlacesDAO {
     }
 
     public List<Places> getAllPlacesByPersonId(Long personId) {
+        PersonDAO personDAO = new PersonDAOImpl();
         Session session = HibernateUtility.getSessionFactory().openSession();
         Query<Places> query = session.createQuery("FROM Places as places " +
                 "WHERE places.person_id = :id");
-        query.setParameter("id", personId);
+        query.setParameter("id", personDAO.getById(personId));
         List<Places> result = query.getResultList();
         session.close();
         return result;

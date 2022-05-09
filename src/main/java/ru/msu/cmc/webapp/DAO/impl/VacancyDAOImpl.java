@@ -138,31 +138,30 @@ public class VacancyDAOImpl implements VacancyDAO{
     @Override
     public List<Vacancy> getAllVacancyByResume(Resume resume) {
         Session session = HibernateUtility.getSessionFactory().openSession();
-        Query query = session.createQuery
-                ("FROM Vacancy as vacancy " +
+        Query helpquery = session.createQuery
+                ("FROM Resume as resume " +
+                        "INNER JOIN resume.person_id as person " +
+                        "INNER JOIN person.education_id as education " +
+                        "WHERE resume.id = :resume");
+        helpquery.setParameter("resume", resume.getId());
+        List<Object[]> help = helpquery.list();
+        Education helpresult = (Education) (help.get(0))[2];
+
+        Query<Vacancy> query = session.createQuery
+                ("SELECT vacancy.id, vacancy.company_id, vacancy.position, vacancy.offered_salary, vacancy.experience, vacancy.required_education " +
+                        "FROM Vacancy as vacancy " +
                         "INNER JOIN vacancy.required_education as education " +
                         "WHERE vacancy.position = :pos AND " +
                         "vacancy.offered_salary >= :salary AND " +
                         "vacancy.experience <= :exp AND " +
-                        "education.id <= (SELECT education.id " +
-                                "FROM Resume as resume " +
-                                "INNER JOIN resume.person_id as person " +
-                                "INNER JOIN person.education_id as education " +
-                                "WHERE resume = :resume)");
+                        "education.id <= :educId");
         query.setParameter("pos", resume.getPosition());
         query.setParameter("salary", resume.getDesired_salary());
         query.setParameter("exp", resume.getExperience());
-        query.setParameter("resume", resume);
-        List<Object[]> result = query.list();
-        List<Vacancy> vacancies = new ArrayList<Vacancy>();
-        if (result.size() == 0) {
-            return vacancies;
-        }
-        for(Object[] row : result) {
-            vacancies.add((Vacancy) row[0]);
-        }
+        query.setParameter("educId", helpresult.getId());
+        List<Vacancy> result = query.getResultList();
         session.close();
-        return vacancies;
+        return result;
     }
 
     private String likeExpr(String param) {

@@ -6,9 +6,6 @@ import ru.msu.cmc.webapp.models.Company;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 import ru.msu.cmc.webapp.utils.HibernateUtility;
-
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,7 +40,7 @@ class CompanyDAOTest {
         assertEquals("EPAM", test.getName());
         test.setName("TEST");
         companyDAO.update(test);
-        assertEquals("TEST", test.getName());
+        assertEquals("TEST", companyDAO.getById(3L).getName());
     }
 
     @Test

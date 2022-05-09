@@ -13,5 +13,5 @@ public interface PersonDAO {
     void add(Person entity);
     void delete(Person entity);
     void update(Person entity);
-    List<Person> getAllPersonByName(String companyName);
+    List<Person> getAllPersonByName(String personName);
 }

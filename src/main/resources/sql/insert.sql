@@ -9,7 +9,7 @@ VALUES
     ('Высшее (специалитет)'),
     ('Высшее (магистратура)');
 
-INSERT INTO person (first_name, last_name, sur_name, education_id, home_address, search_status)
+INSERT INTO person (last_name, first_name, sur_name, education_id, home_address, search_status)
 VALUES
     ('Зайцев', 'Артём', 'Михайлович', 4, '534660, Новосибирская область, город Дорохово, наб. Ленина, 81', 'не ищет'),
     ('Орлов', 'Илья', 'Артёмович', 1, '743923, Амурская область, город Люберцы, пр. Ленина, 12', 'не ищет'),

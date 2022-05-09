@@ -12,7 +12,7 @@ public interface ResumeDAO {
     void delete(Resume entity);
     void update(Resume entity);
     List<Resume> getAllResumeBySearchStatus();
-    List<Resume> getAllResumeByPerson(String companyName);
+    List<Resume> getAllResumeByPerson(String personName);
     List<Resume> getAllResumeByPosition(String positionName);
     List<Resume> getAllResumeBySalary(Long salaryFrom, Long salaryTo);
     List<Resume> getAllResumeByEducation(String educationName);
