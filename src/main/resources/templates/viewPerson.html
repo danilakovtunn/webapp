@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <div th:replace="general :: bootstrap-head"/>
+    <title th:text="${person.getLast_name()} + ' ' + ${person.getFirst_name()}">
+    </title>
+</head>
+<body>
+
+<div th:replace="general :: menu('people')"/>
+<div th:replace="general :: bootstrap-scripts"/>
+
+<div class="indent">
+    <h4 th:text="${person.getLast_name()} + ' ' + ${person.getFirst_name()} + ' ' + ${person.getSur_name()}"></h4>
+    <p th:text="'Имя: ' + ${person.getFirst_name()}"></p>
+    <p th:text="'Фамилия: ' + ${person.getLast_name()}"></p>
+    <p th:text="'Отчество: ' + ${person.getSur_name()}"></p>
+    <p th:text="'Образование: ' + ${educName}"></p>
+    <p th:text="'Домашний адрес: ' + ${person.getHome_address()}"></p>
+    <p th:text="'Статус поиска: ' + ${person.getSearch_status()}"></p>
+
+    <p> Места работы:&nbsp <span th:if="${places.size() == 0}">Отсутствует</span>
+        <ul th:each="place: ${places}">
+            <li>
+                <span th:text="'Компания: ' + ${place.getCompany()}"></span>
+                <br>
+                <span th:text="'Должность: ' + ${place.getPosition}"></span>
+                <br>
+                <span th:text="'Зарплата: ' + ${place.getSalary()}"></span>
+                <br>
+                <span th:text="'Период работы: с ' + ${place.getStart_date()} + ' по ' + ${place.getFinish_date()}"></span>
+            </li>
+        </ul>
+    </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <div th:replace="general :: bootstrap-head"/>
+    <title>
+        Таблица соискателей
+    </title>
+</head>
+<body>
+
+    <div th:replace="general :: menu('people')"/>
+    <div th:replace="general :: bootstrap-scripts"/>
+
+    <div class="indent">
+        <table class="table table-bordered ">
+
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col"> Фамилия </th>
+                    <th scope="col"> Имя </th>
+                    <th scope="col"> Отчество </th>
+                    <th scope="col"> </th>
+                </tr>
+            </thead>
+
+            <tr th:each="person : ${people}">
+                <td th:text="${person.getLast_name}"></td>
+                <td th:text="${person.getFirst_name}"></td>
+                <td th:text="${person.getSur_name}"></td>
+                <td align="center">
+                    <form method="get" action="/viewPerson">
+                        <input type="hidden" name="id" th:value="${person.getId()}"/>
+                        <button type="submit" class="btn btn-secondary">Личная страница</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
