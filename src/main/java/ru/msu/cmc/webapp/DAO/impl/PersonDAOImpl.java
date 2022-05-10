@@ -75,6 +75,19 @@ public class PersonDAOImpl implements PersonDAO{
         return result;
     }
 
+    @Override
+    public String getPersonEducationById(Long id) {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Query query = session.createQuery
+                ("FROM Person as person " +
+                        "INNER JOIN person.education_id as education " +
+                        "WHERE person.id = :id");
+        query.setParameter("id", id);
+        List<Object[]> help = query.list();
+        Education result = (Education) (help.get(0))[1];
+        return result.getEduc_name();
+    }
+
     private String likeExpr(String param) {
         return "%" + param + "%";
     }

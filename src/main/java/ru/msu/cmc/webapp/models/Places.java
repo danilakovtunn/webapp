@@ -44,5 +44,5 @@ public class Places {
 
     @Column(nullable = false, name = "finish_day")
     @NonNull
-    private Date finish_day;
+    private Date finish_date;
 }

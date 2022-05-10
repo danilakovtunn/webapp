@@ -71,6 +71,12 @@ class PersonDAOTest {
         assertEquals(3, test.size());
     }
 
+    @Test
+    void testGetPersonEducationById() {
+        PersonDAO personDAO = new PersonDAOImpl();
+        assertEquals("среднее общее (11 кл)", personDAO.getPersonEducationById(1L));
+    }
+
     private void annihilation() {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
