@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <div th:replace="general :: bootstrap-head"/>
+    <title th:text="${company.getName()}">
+    </title>
+</head>
+<body>
+
+<div th:replace="general :: menu('companies')"/>
+<div th:replace="general :: bootstrap-scripts"/>
+
+<div class="indent">
+    <h4 th:text="${company.getName()}"></h4>
+    <p th:text="'Название компании: ' + ${company.getName()}"></p>
+    <p th:text="'Полное название: ' + ${company.getFull_name()}"></p>
+
+    <div class="btn-group mr-2" role="group" aria-label="First group">
+        <form style="margin-right: 30px" method="get" action="/vacancies">
+            <input type="hidden" name="companyId" th:value="${company.getId()}"/>
+            <button type="submit" class="btn btn-secondary">Вакансии компании</button>
+        </form>
+
+        <form style="margin-right: 30px" method="post" action="/deleteCompany">
+            <input type="hidden" name="id" th:value="${company.getId()}"/>
+            <button type="submit" class="btn btn-danger">Удалить данные</button>
+        </form>
+
+        <form method="get" action="/updateCompany">
+            <input type="hidden" name="id" th:value="${company.getId()}"/>
+            <button type="submit" class="btn btn-success">Редактировать данные</button>
+        </form>
+    </div>
+
+
+</div>
+
+</body>
+</html>

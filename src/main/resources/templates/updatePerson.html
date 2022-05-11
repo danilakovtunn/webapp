@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <div th:replace="general :: bootstrap-head"/>
+    <title>
+        Изменить место работы
+    </title>
+</head>
+<body>
+
+    <div th:replace="general :: menu('person')"/>
+    <div th:replace="general :: bootstrap-scripts"/>
+
+
+    <div class="container mt-3" style="max-width: 400px;">
+        <form method="post" action="/saveUpdatePerson">
+
+            <input type="hidden" name="id" th:value="${person.getId()}">
+
+            <div class="form-group">
+                <label>Фамилия</label>
+                <input class="form-control" name="lastName" th:value="${person.getLast_name()}">
+            </div>
+            <div class="form-group">
+                <label>Имя</label>
+                <input class="form-control" name="firstName" th:value="${person.getFirst_name()}">
+            </div>
+            <div class="form-group">
+                <label>Отчество</label>
+                <input class="form-control" name="surName" th:value="${person.getSur_name()}">
+            </div>
+            <div class="form-group">
+                <label>Образование</label>
+                <div class="input-group">
+                    <select class="custom-select" name="inputEducation">
+                        <ul th:each="educ: ${education}">
+                            <li>
+                                <span th:if="${personEduc == educ.getEduc_name()}">
+                                    <option selected th:value="${educ.getId()}" th:text="${educ.getEduc_name()}"></option>
+                                </span>
+                                <span th:if="${personEduc != educ.getEduc_name()}">
+                                    <option th:value="${educ.getId()}" th:text="${educ.getEduc_name()}"></option>
+                                </span>
+                            </li>
+                        </ul>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Домашний адрес</label>
+                <input class="form-control" name="address" th:value="${person.getHome_address()}">
+            </div>
+            <label>Статус поиска</label>
+            <div class="form-group">
+                <div class="input-group">
+                    <select class="custom-select" name="inputStatus">
+                        <ul th:each="status: ${statuses}">
+                            <li>
+                                <span th:if="${person.getSearch_status() == status}">
+                                    <option selected th:value="${status}" th:text="${status}"></option>
+                                </span>
+                                <span th:if="${person.getSearch_status() != status}">
+                                    <option th:value="${status}" th:text="${status}"></option>
+                                </span>
+                            </li>
+                        </ul>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Сохранить</button>
+        </form>
+
+    </div>
+
+
+</body>
+</html>

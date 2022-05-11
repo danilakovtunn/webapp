@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <div th:replace="general :: bootstrap-head"/>
+    <title>
+        Таблица Вакансий
+    </title>
+</head>
+<body>
+
+<div th:replace="general :: menu('vacancies')"/>
+<div th:replace="general :: bootstrap-scripts"/>
+
+<div class="indent">
+    <div class="form-row">
+        <div class="col">
+            <form  method="get" action="/vacancies">
+                <div class="form-group" >
+                    <label>Поиск по компаниям</label>
+                    <input type="text" class="form-control" name="nameFilter">
+                </div>
+            </form>
+        </div>
+        <div class="col">
+            <form  method="get" action="/vacancies">
+                <div class="form-group" >
+                    <label>Поиск по должности</label>
+                    <input type="text" class="form-control" name="positionFilter">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <form  method="get" action="/vacancies">
+                <div class="form-group" >
+                    <label>Поиск по образованию</label>
+                    <div class="row">
+                        <div class="col">
+                            <select class="custom-select" name="educationFilter">
+                                <ul th:each="educ: ${education}">
+                                    <li>
+                                        <option th:value="${educ.getEduc_name()}" th:text="${educ.getEduc_name()}"></option>
+                                    </li>
+                                </ul>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-secondary">Поиск</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col">
+            <form  method="get" action="/vacancies">
+                <div class="form-group" >
+                    <label>Поиск по опыту работы (не ниже чем)</label>
+                    <input type="number" step="any" class="form-control" name="experienceFilter" >
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <form  method="get" action="/vacancies">
+                <label>Поиск по зарплате</label>
+                <div class="row">
+                    <div class="col">
+                        <input type="number" class="form-control" placeholder="От" name="fromFilter">
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control" placeholder="До" name="toFilter">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-secondary mb-2">Поиск</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col">
+            <form method="get" style="margin-top: 32px; margin-right: 60px" action="/addVacancy">
+                <div class="form-group text-right">
+                    <button type="submit" class="btn btn-success mb-2">Добавить вакансию</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <span th:if="${vacancies.size() == 0}">
+            <b>Не найдено</b>
+        </span>
+
+    <span th:if="${vacancies.size() != 0}">
+            <table class="table table-bordered ">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col"> Название компании </th>
+                        <th scope="col"> Должность </th>
+                        <th scope="col"> Желаемая Зарплата </th>
+                        <th scope="col"> Опыт работы </th>
+                        <th scope="col"> Образование </th>
+                        <th scope="col"> </th>
+                        <th scope="col"> </th>
+                        <th scope="col"> </th>
+                    </tr>
+                </thead>
+
+                <tr th:each="vacancy : ${vacancies}">
+                    <td>
+                        <a th:href="'/viewCompany?id=' + ${vacancy.getCompany_id().getId()}">
+                            <span th:text="${vacancy.getCompany_id().getName()}"></span>
+                        </a>
+                    </td>
+                    <td th:text="${vacancy.getPosition()}"></td>
+                    <td th:text="${vacancy.getOffered_salary()} + ' руб'"></td>
+                    <td th:text="${vacancy.getExperience()} + ' лет'"></td>
+                    <td th:text="${vacancy.getRequired_education().getEduc_name()}"></td>
+                    <td align="center">
+                        <form method="get" action="/resumes">
+                            <input type="hidden" name="vacancyId" th:value="${vacancy.getId()}"/>
+                            <button type="submit" class="btn btn-secondary"> Резюме </button>
+                        </form>
+                    </td>
+                    <td align="center">
+                        <form method="post" action="/deleteVacancy">
+                            <input type="hidden" name="vacancyId" th:value="${vacancy.getId()}"/>
+                            <button type="submit" class="btn btn-danger"> Удалить </button>
+                        </form>
+                    </td>
+                    <td align="center">
+                        <form method="get" action="/updateVacancy">
+                            <input type="hidden" name="vacancyId" th:value="${vacancy.getId()}"/>
+                            <button type="submit" class="btn btn-success"> Редактировать </button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </span>
+</div>
+
+</body>
+</html>

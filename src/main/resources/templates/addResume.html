@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <div th:replace="general :: bootstrap-head"/>
+    <title>
+        Добавить человека
+    </title>
+</head>
+<body>
+
+<div th:replace="general :: menu('resumes')"/>
+<div th:replace="general :: bootstrap-scripts"/>
+
+
+<div class="container mt-3" style="max-width: 400px;">
+    <form method="post" action="/saveResume">
+        <div class="form-group">
+            <label> Выберите соискателя </label>
+            <div class="input-group">
+                <select class="custom-select" name="inputPerson">
+                    <ul th:each="person: ${people}">
+                        <li>
+                            <option th:value="${person.getId()}" th:text="${person.getLast_name()} + ' ' + ${person.getFirst_name()} + ' ' + ${person.getSur_name()}"></option>
+                        </li>
+                    </ul>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Должность</label>
+            <input class="form-control" name="position">
+        </div>
+
+        <div class="form-group">
+            <label>Желаемая зарплата</label>
+            <input type="number" class="form-control" name="salary">
+        </div>
+
+        <div class="form-group">
+            <label>Опыт работы</label>
+            <input type="number" step="any" class="form-control" name="experience">
+        </div>
+
+        <button type="submit" class="btn btn-success">Сохранить</button>
+    </form>
+
+</div>
+
+</body>
+</html>

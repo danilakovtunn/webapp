@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <div th:replace="general :: bootstrap-head"/>
+    <title>
+        Добавить место работы
+    </title>
+</head>
+<body>
+
+    <div th:replace="general :: menu('person')"/>
+    <div th:replace="general :: bootstrap-scripts"/>
+
+
+    <div class="container mt-3" style="max-width: 400px;">
+        <form method="post" action="/savePlace">
+            <input type="hidden" name="personId" th:value="${personId}">
+
+            <div class="form-group">
+                <label>Компания</label>
+                <input class="form-control" name="companyName">
+            </div>
+            <div class="form-group">
+                <label>Должность</label>
+                <input class="form-control" name="position">
+            </div>
+            <div class="form-group">
+                <label>Зарплата</label>
+                <input type="number" class="form-control" name="salary">
+            </div>
+            <div class="form-group">
+                <label>Время работы</label>
+                <div class="form-row">
+                    <div class="col">
+                        С <input type="date" class="form-control" name="dateFrom">
+                    </div>
+                    <div class="col">
+                        По <input type="date" class="form-control" name="dateTo">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Сохранить</button>
+        </form>
+
+    </div>
+
+</body>
+</html>

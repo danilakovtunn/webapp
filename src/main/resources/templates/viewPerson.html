@@ -11,6 +11,7 @@
 <div th:replace="general :: bootstrap-scripts"/>
 
 <div class="indent">
+    <input type="hidden" name="id" th:value="${person.getId()}">
     <h4 th:text="${person.getLast_name()} + ' ' + ${person.getFirst_name()} + ' ' + ${person.getSur_name()}"></h4>
     <p th:text="'Имя: ' + ${person.getFirst_name()}"></p>
     <p th:text="'Фамилия: ' + ${person.getLast_name()}"></p>
@@ -19,19 +20,68 @@
     <p th:text="'Домашний адрес: ' + ${person.getHome_address()}"></p>
     <p th:text="'Статус поиска: ' + ${person.getSearch_status()}"></p>
 
-    <p> Места работы:&nbsp <span th:if="${places.size() == 0}">Отсутствует</span>
+    <p> Места работы:&nbsp
         <ul th:each="place: ${places}">
+            <div class="form-row">
+                <div class="col-md-auto">
+                    <li>
+                        <span th:text="'Компания: ' + ${place.getCompany()}"></span>
+                        <br>
+                        <span th:text="'Должность: ' + ${place.getPosition}"></span>
+                        <br>
+                        <span th:text="'Зарплата: ' + ${place.getSalary()}"></span>
+                        <br>
+                        <span th:text="'Период работы: с ' + ${place.getStart_date()} + ' по ' + ${place.getFinish_date()}"></span>
+                    </li>
+                </div>
+                <div class="col-md-auto">
+                    <form method="get" style="margin-top: 30px" action="/updatePlace">
+                        <div class="form-group text-right">
+                            <input type="hidden" name="personId" th:value="${person.getId()}"/>
+                            <input type="hidden" name="id" th:value="${place.getId()}"/>
+                            <button type="submit" class="btn btn-success">Редактировать место работы</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-auto">
+                    <form method="post" style="margin-top: 30px; margin-right: 60px" action="/deletePlace">
+                        <div class="form-group text-right">
+                            <input type="hidden" name="personId" th:value="${person.getId()}"/>
+                            <input type="hidden" name="id" th:value="${place.getId()}"/>
+                            <button type="submit" class="btn btn-danger">Удалить место работы</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ul>
+        <ul>
             <li>
-                <span th:text="'Компания: ' + ${place.getCompany()}"></span>
-                <br>
-                <span th:text="'Должность: ' + ${place.getPosition}"></span>
-                <br>
-                <span th:text="'Зарплата: ' + ${place.getSalary()}"></span>
-                <br>
-                <span th:text="'Период работы: с ' + ${place.getStart_date()} + ' по ' + ${place.getFinish_date()}"></span>
+                <form action="/addPlace">
+                    <input type="hidden" name="id" th:value="${person.getId()}">
+                    <button type="submit" class="btn btn-secondary">Добавить место работы</button>
+                </form>
             </li>
         </ul>
     </p>
+
+    <div class="btn-group mr-2" role="group" aria-label="First group">
+        <form style="margin-right: 30px" method="get" action="/resumes">
+            <input type="hidden" name="personId" th:value="${person.getId()}"/>
+            <button type="submit" class="btn btn-secondary">Все резюме</button>
+        </form>
+
+        <form style="margin-right: 30px" method="post" action="/deletePerson">
+            <input type="hidden" name="id" th:value="${person.getId()}"/>
+            <button type="submit" class="btn btn-danger">Удалить данные</button>
+        </form>
+
+        <form method="get" action="/updatePerson">
+            <input type="hidden" name="id" th:value="${person.getId()}"/>
+            <button type="submit" class="btn btn-success">Редактировать данные</button>
+        </form>
+    </div>
+
+
 </div>
 
 </body>

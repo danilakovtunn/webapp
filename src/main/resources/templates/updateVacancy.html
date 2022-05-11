@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <div th:replace="general :: bootstrap-head"/>
+    <title>
+        Изменить вакансию
+    </title>
+</head>
+<body>
+
+<div th:replace="general :: menu('vacancies')"/>
+<div th:replace="general :: bootstrap-scripts"/>
+
+
+<div class="container mt-3" style="max-width: 400px;">
+    <form method="post" action="/saveUpdateVacancy">
+        <input type="hidden" name="id" th:value="${vacancy.getId()}">
+        <div class="form-group">
+            <label> Выберите компанию </label>
+            <div class="input-group">
+                <select class="custom-select" name="companyId">
+                    <ul th:each="company: ${companies}">
+                        <li>
+                            <span th:if="${vacancy.getCompany_id().getId() == company.getId()}">
+                                <option selected th:value="${company.getId()}" th:text="${company.getName()}"></option>
+                            </span>
+                            <span th:if="${vacancy.getCompany_id().getId() != company.getId()}">
+                                <option th:value="${company.getId()}" th:text="${company.getName()}"></option>
+                            </span>
+                        </li>
+                    </ul>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Должность</label>
+            <input class="form-control" name="position" th:value="${vacancy.getPosition()}">
+        </div>
+
+        <div class="form-group">
+            <label>Зарплата</label>
+            <input type="number" class="form-control" name="salary" th:value="${vacancy.getOffered_salary()}">
+        </div>
+
+        <div class="form-group">
+            <label>Опыт работы</label>
+            <input type="number" step="any" class="form-control" name="experience" th:value="${vacancy.getExperience()}">
+        </div>
+
+        <div class="form-group">
+            <label>Образование</label>
+            <div class="input-group">
+                <select class="custom-select" name="inputEducation">
+                    <ul th:each="educ: ${education}">
+                        <li>
+                            <span th:if="${vacancy.getRequired_education().getEduc_name() == educ.getEduc_name()}">
+                                <option selected th:value="${educ.getId()}" th:text="${educ.getEduc_name()}"></option>
+                            </span>
+                            <span th:if="${vacancy.getRequired_education().getEduc_name() != educ.getEduc_name()}">
+                                <option th:value="${educ.getId()}" th:text="${educ.getEduc_name()}"></option>
+                            </span>
+                        </li>
+                    </ul>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Сохранить</button>
+    </form>
+
+</div>
+
+</body>
+</html>

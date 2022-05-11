@@ -12,29 +12,55 @@
     <div th:replace="general :: bootstrap-scripts"/>
 
     <div class="indent">
-        <table class="table table-bordered ">
+        <div class="form-row">
+            <div class="col">
+                <form  method="get" action="/people">
+                    <div class="form-group" >
+                        <label>Поиск человека</label>
+                        <input type="text" class="form-control" name="nameFilter">
+                    </div>
+                </form>
+            </div>
+            <div class="col">
+                <form method="get" style="margin-top: 32px; margin-right: 60px" action="/addPerson">
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-success mb-2">Добавить человека</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col"> Фамилия </th>
-                    <th scope="col"> Имя </th>
-                    <th scope="col"> Отчество </th>
-                    <th scope="col"> </th>
+        <span th:if="${people.size() == 0}">
+            <b>Не найдено</b>
+        </span>
+
+        <span th:if="${people.size() != 0}">
+            <table class="table table-bordered ">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"> Фамилия </th>
+                        <th scope="col"> Имя </th>
+                        <th scope="col"> Отчество </th>
+                        <th scope="col"> </th>
+                    </tr>
+                </thead>
+
+                <tr th:each="person : ${people}">
+                    <td th:text="${person.getId()}"></td>
+                    <td th:text="${person.getLast_name()}"></td>
+                    <td th:text="${person.getFirst_name()}"></td>
+                    <td th:text="${person.getSur_name()}"></td>
+                    <td align="center">
+                        <form method="get" action="/viewPerson">
+                            <input type="hidden" name="id" th:value="${person.getId()}"/>
+                            <button type="submit" class="btn btn-secondary">Личная страница</button>
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-
-            <tr th:each="person : ${people}">
-                <td th:text="${person.getLast_name}"></td>
-                <td th:text="${person.getFirst_name}"></td>
-                <td th:text="${person.getSur_name}"></td>
-                <td align="center">
-                    <form method="get" action="/viewPerson">
-                        <input type="hidden" name="id" th:value="${person.getId()}"/>
-                        <button type="submit" class="btn btn-secondary">Личная страница</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
+            </table>
+        </span>
     </div>
 
 </body>
