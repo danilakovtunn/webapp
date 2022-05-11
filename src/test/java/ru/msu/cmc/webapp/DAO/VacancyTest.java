@@ -65,6 +65,12 @@ class VacancyTest {
     }
 
     @Test
+    void testGetAllVacancyByExperience() {
+        VacancyDAO vacancyDAO = new VacancyDAOImpl();
+        assertEquals(3, vacancyDAO.getAllVacancyByExperience(5f).size());
+    }
+
+    @Test
     void testGetAllVacancyByPosition() {
         VacancyDAO vacancyDAO = new VacancyDAOImpl();
         List<Vacancy> test = vacancyDAO.getAllVacancyByPosition("Программист");

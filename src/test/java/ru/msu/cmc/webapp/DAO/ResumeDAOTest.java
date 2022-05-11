@@ -71,6 +71,11 @@ class ResumeDAOTest {
     }
 
     @Test
+    void testGetAllResumeByExperience() {
+        ResumeDAO resumeDAO = new ResumeDAOImpl();
+        assertEquals(5, resumeDAO.getAllResumeByExperience(5f).size());
+    }
+    @Test
     void testGetAllResumeByPerson() {
         ResumeDAO resumeDAO = new ResumeDAOImpl();
         List<Resume> test = resumeDAO.getAllResumeByPerson("Киселев");

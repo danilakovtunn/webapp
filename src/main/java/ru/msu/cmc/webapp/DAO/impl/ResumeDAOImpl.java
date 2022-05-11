@@ -86,6 +86,18 @@ public class ResumeDAOImpl implements ResumeDAO {
     }
 
     @Override
+    public List<Resume> getAllResumeByExperience(Float experience){
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        Query<Resume> query = session.createQuery
+                ("FROM Resume " +
+                        "WHERE experience >= :exp");
+        query.setParameter("exp", experience);
+        List<Resume> resumes = query.getResultList();
+        session.close();
+        return resumes;
+    }
+
+    @Override
     public List<Resume> getAllResumeByPerson(String companyName) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Query query = session.createQuery
@@ -163,9 +175,8 @@ public class ResumeDAOImpl implements ResumeDAO {
         List<Object[]> help = helpquery.list();
         Education helpresult = (Education) (help.get(0))[1];
 
-        Query<Resume> query = session.createQuery
-                ("SELECT resume.id, resume.person_id, resume.position, resume.desired_salary, resume.experience " +
-                        "FROM Resume as resume " +
+        Query query = session.createQuery
+                ("FROM Resume as resume " +
                         "INNER JOIN resume.person_id as person " +
                         "INNER JOIN person.education_id as education " +
                         "WHERE resume.position = :pos AND " +
@@ -176,9 +187,17 @@ public class ResumeDAOImpl implements ResumeDAO {
         query.setParameter("salary", vacancy.getOffered_salary());
         query.setParameter("exp", vacancy.getExperience());
         query.setParameter("educId", helpresult.getId());
-        List<Resume> result = query.getResultList();
+        List<Object[]> result = query.list();
+        List<Resume> resumes = new ArrayList<Resume>();
+        if (result.size() == 0) {
+            session.close();
+            return resumes;
+        }
+        for (Object[] row : result) {
+            resumes.add((Resume) row[0]);
+        }
         session.close();
-        return result;
+        return resumes;
     }
 
     private String likeExpr(String param) {

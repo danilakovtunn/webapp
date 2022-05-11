@@ -15,6 +15,7 @@ public interface VacancyDAO {
     void delete(Vacancy entity);
     void update(Vacancy entity);
     List<Vacancy> getAllVacancyByCompany(String companyName);
+    List<Vacancy> getAllVacancyByExperience(Float experience);
     List<Vacancy> getAllVacancyByPosition(String positionName);
     List<Vacancy> getAllVacancyBySalary(Long salaryFrom, Long salaryTo);
     List<Vacancy> getAllVacancyByEducation(String educationName);
