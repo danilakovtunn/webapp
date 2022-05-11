@@ -44,7 +44,7 @@ public class CompanyDAOImpl implements CompanyDAO{
     public List<Company> getAll() {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Query<Company> query = session.createQuery
-                ("FROM Company", Company.class);
+                ("FROM Company ORDER BY name", Company.class);
         List<Company> result = query.getResultList();
         session.close();
         return result;
