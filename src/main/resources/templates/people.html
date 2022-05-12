@@ -39,7 +39,6 @@
 
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col"></th>
                         <th scope="col"> Фамилия </th>
                         <th scope="col"> Имя </th>
                         <th scope="col"> Отчество </th>
@@ -48,7 +47,6 @@
                 </thead>
 
                 <tr th:each="person : ${people}">
-                    <td th:text="${person.getId()}"></td>
                     <td th:text="${person.getLast_name()}"></td>
                     <td th:text="${person.getFirst_name()}"></td>
                     <td th:text="${person.getSur_name()}"></td>

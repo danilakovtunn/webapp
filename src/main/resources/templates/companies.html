@@ -39,7 +39,6 @@
 
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col"> </th>
                         <th scope="col"> Название компании </th>
                         <th scope="col"> Полное название </th>
                         <th scope="col"> </th>
@@ -47,7 +46,6 @@
                 </thead>
 
                 <tr th:each="company : ${companies}">
-                    <td th:text="${company.getId()}"></td>
                     <td th:text="${company.getName()}"></td>
                     <td th:text="${company.getFull_name()}"></td>
                     <td align="center">

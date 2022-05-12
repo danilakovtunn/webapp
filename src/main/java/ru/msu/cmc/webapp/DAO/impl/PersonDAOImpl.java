@@ -45,7 +45,7 @@ public class PersonDAOImpl implements PersonDAO{
     public List<Person> getAll() {
         Session session = HibernateUtility.getSessionFactory().openSession();
         Query<Person> query = session.createQuery
-                ("FROM Person ORDER BY last_name", Person.class);
+                ("FROM Person", Person.class);
         List<Person> result = query.getResultList();
         session.close();
         return result;
