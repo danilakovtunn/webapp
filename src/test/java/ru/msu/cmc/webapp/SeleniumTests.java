@@ -346,7 +346,7 @@ public class SeleniumTests {
         driver.findElement(By.partialLinkText("Резюме")).click();
         driver.findElement(By.name("positionFilter")).sendKeys("Тестировщик");
         driver.findElement(By.name("positionFilter")).sendKeys(Keys.RETURN);
-        assertEquals( 14 + 1, driver.findElements(By.tagName("tr")).size());
+        assertEquals( 1 + 1, driver.findElements(By.tagName("tr")).size());
 
         driver.quit();
     }
@@ -554,7 +554,7 @@ public class SeleniumTests {
         assertEquals("Статус поиска: ищет работу", elems.get(5).getText());
         assertEquals("Места работы: ", elems.get(6).getText());
 
-        testPlaceAddUpdateDelete();
+        testPlaceAddUpdateDelete(driver);
 
         /* Редактирование */
         elems = driver.findElements(By.tagName("form"));
@@ -612,8 +612,63 @@ public class SeleniumTests {
         driver.quit();
     }
 
-    void testPlaceAddUpdateDelete() {
+    void testPlaceAddUpdateDelete(ChromeDriver driver) {
+        WebElement test = driver.findElements(By.tagName("ul")).get(1);
+        int size = driver.findElements(By.tagName("ul")).size();
+        test.findElement(By.cssSelector("button.btn")).click();
 
+        /* Add personPlace */
+        driver.findElement(By.name("companyName")).sendKeys("Тест");
+        driver.findElement(By.name("position")).sendKeys("Тестировщик");
+        driver.findElement(By.name("salary")).sendKeys("100000");
+        driver.findElement(By.name("dateFrom")).sendKeys("01.01.0001");
+        driver.findElement(By.name("dateTo")).sendKeys("02.02.0002");
+        driver.findElement(By.cssSelector("button.btn")).click();
+
+        /* Check added personPlace */
+        test = driver.findElements(By.tagName("ul")).get(1);
+        List<WebElement> elems = test.findElements(By.tagName("span"));
+        assertEquals("Компания: Тест", elems.get(0).getText());
+        assertEquals("Должность: Тестировщик", elems.get(1).getText());
+        assertEquals("Зарплата: 100000", elems.get(2).getText());
+        assertEquals("Период работы: с 0001-01-01 по 0002-02-02", elems.get(3).getText());
+
+        /* update */
+        test.findElements(By.cssSelector("button.btn.btn-success")).get(0).click();
+
+        assertEquals("Тест", driver.findElement(By.name("companyName")).getAttribute("value"));
+        driver.findElement(By.name("companyName")).clear();
+        driver.findElement(By.name("companyName")).sendKeys("Протест");
+
+        assertEquals("Тестировщик", driver.findElement(By.name("position")).getAttribute("value"));
+        driver.findElement(By.name("position")).clear();
+        driver.findElement(By.name("position")).sendKeys("Протестировщик");
+
+        assertEquals("100000", driver.findElement(By.name("salary")).getAttribute("value"));
+        driver.findElement(By.name("salary")).clear();
+        driver.findElement(By.name("salary")).sendKeys("999999");
+
+        assertEquals("0001-01-01", driver.findElement(By.name("dateFrom")).getAttribute("value"));
+        driver.findElement(By.name("dateFrom")).clear();
+        driver.findElement(By.name("dateFrom")).sendKeys("11.11.1111");
+
+        assertEquals("0002-02-02", driver.findElement(By.name("dateTo")).getAttribute("value"));
+        driver.findElement(By.name("dateTo")).clear();
+        driver.findElement(By.name("dateTo")).sendKeys("22.02.2222");
+
+        driver.findElement(By.cssSelector("button.btn.btn-success")).click();
+
+        /* Check update */
+        test = driver.findElements(By.tagName("ul")).get(1);
+        elems = test.findElements(By.tagName("span"));
+        assertEquals("Компания: Протест", elems.get(0).getText());
+        assertEquals("Должность: Протестировщик", elems.get(1).getText());
+        assertEquals("Зарплата: 999999", elems.get(2).getText());
+        assertEquals("Период работы: с 1111-11-11 по 2222-02-22", elems.get(3).getText());
+
+        /* Check delete */
+        test.findElements(By.cssSelector("button.btn.btn-danger")).get(0).click();
+        assertEquals(size, driver.findElements(By.tagName("ul")).size());
     }
 
     @Test
@@ -641,5 +696,4 @@ public class SeleniumTests {
         assertEquals(1 + 1, driver.findElements(By.tagName("tr")).size());
         driver.quit();
     }
-
 }
